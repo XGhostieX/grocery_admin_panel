@@ -16,10 +16,10 @@ class _ProductItemState extends State<ProductItem> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Material(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(10),
         color: Theme.of(context).cardColor.withValues(alpha: 0.6),
         child: InkWell(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(10),
           onTap: () {},
           child: Padding(
             padding: const EdgeInsets.all(8.0),
