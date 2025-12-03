@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:iconly/iconly.dart';
 
+import '../utils/app_router.dart';
 import 'custom_text.dart';
 import '../theme/app_theme.dart';
 
@@ -25,7 +26,11 @@ class _SideMenuState extends ConsumerState<SideMenu> {
             press: () => GoRouter.of(context).pushReplacement('/'),
             icon: Icons.home_filled,
           ),
-          DrawerListTile(title: "View all product", press: () {}, icon: Icons.store),
+          DrawerListTile(
+            title: "View all product",
+            press: () => GoRouter.of(context).pushReplacement(AppRouter.kProductsView),
+            icon: Icons.store,
+          ),
           DrawerListTile(title: "View all order", press: () {}, icon: IconlyBold.bag_2),
           SwitchListTile(
             title: const CustomText(text: 'Dark Theme'),

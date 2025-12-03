@@ -11,7 +11,7 @@ class MenuController {
   GlobalKey<ScaffoldState> get getAddProductscaffoldKey => _addProductScaffoldKey;
 
   // Callbacks
-  void controlDashboarkMenu() {
+  void controlDashboardMenu() {
     if (!_scaffoldKey.currentState!.isDrawerOpen) {
       _scaffoldKey.currentState!.openDrawer();
     }
