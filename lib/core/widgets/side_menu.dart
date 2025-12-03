@@ -31,15 +31,11 @@ class _SideMenuState extends ConsumerState<SideMenu> {
             press: () => GoRouter.of(context).pushReplacement(AppRouter.kProductsView),
             icon: Icons.store,
           ),
-<<<<<<< HEAD
           DrawerListTile(
             title: "View all order",
             press: () => GoRouter.of(context).pushReplacement(AppRouter.kOrdersView),
             icon: IconlyBold.bag_2,
           ),
-=======
-          DrawerListTile(title: "View all order", press: () {}, icon: IconlyBold.bag_2),
->>>>>>> 05861db3193a205df9761511a9e7d61de81d610d
           SwitchListTile(
             title: const CustomText(text: 'Dark Theme'),
             secondary: const Icon(Icons.dark_mode_rounded),
