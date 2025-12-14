@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -20,21 +21,17 @@ class _AddProductViewBodyState extends ConsumerState<AddProductViewBody> {
   final _formKey = GlobalKey<FormState>();
   String _catValue = 'Vegetables';
   int _groupValue = 1;
+  bool _pickedImage = false;
 
-  late final TextEditingController _titleController, _priceController;
-
-  @override
-  void initState() {
-    _priceController = TextEditingController();
-    _titleController = TextEditingController();
-
-    super.initState();
-  }
+  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _priceController = TextEditingController();
+  final TextEditingController _imageController = TextEditingController();
 
   @override
   void dispose() {
     _priceController.dispose();
     _titleController.dispose();
+    _imageController.dispose();
     super.dispose();
   }
 
@@ -187,21 +184,55 @@ class _AddProductViewBodyState extends ConsumerState<AddProductViewBody> {
                                 ),
                               ),
                             ),
-                            // Image to be picked code is here
                             Expanded(
                               flex: 4,
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Container(
-                                  height: MediaQuery.sizeOf(context).width > 650
-                                      ? 350
-                                      : MediaQuery.sizeOf(context).width * 0.45,
-                                  decoration: BoxDecoration(
-                                    color: Theme.of(context).scaffoldBackgroundColor,
-                                    borderRadius: BorderRadius.circular(12.0),
+                              child: Column(
+                                children: [
+                                  const CustomText(text: 'Image URL', isBold: true),
+                                  const SizedBox(height: 10),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: TextFormField(
+                                      controller: _imageController,
+                                      key: const ValueKey('Image URL'),
+                                      validator: (value) {
+                                        if (value!.isEmpty) {
+                                          return 'Please enter an Image URL';
+                                        }
+                                        return null;
+                                      },
+                                      decoration: inputDecoration,
+                                    ),
                                   ),
-                                  child: const DotBorder(),
-                                ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Container(
+                                      height: MediaQuery.sizeOf(context).width > 650
+                                          ? 350
+                                          : MediaQuery.sizeOf(context).width * 0.45,
+                                      decoration: BoxDecoration(
+                                        color: Theme.of(context).scaffoldBackgroundColor,
+                                        borderRadius: BorderRadius.circular(12.0),
+                                      ),
+                                      child: _pickedImage == false
+                                          ? const DotBorder()
+                                          : ClipRRect(
+                                              borderRadius: BorderRadius.circular(12),
+                                              child: CachedNetworkImage(
+                                                imageUrl: _imageController.text,
+                                                fit: BoxFit.cover,
+                                                errorWidget: (context, url, error) => Container(
+                                                  alignment: Alignment.center,
+                                                  child: const CustomText(
+                                                    text:
+                                                        'Please Enter a Valid Image URL or Check Your Enternet Connection',
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                             Expanded(
@@ -210,11 +241,16 @@ class _AddProductViewBodyState extends ConsumerState<AddProductViewBody> {
                                 child: Column(
                                   children: [
                                     TextButton(
-                                      onPressed: () {},
+                                      onPressed: () => setState(() {
+                                        _imageController.clear();
+                                        _pickedImage = false;
+                                      }),
                                       child: const CustomText(text: 'Clear', color: Colors.red),
                                     ),
                                     TextButton(
-                                      onPressed: () {},
+                                      onPressed: () => setState(() {
+                                        _pickedImage = true;
+                                      }),
                                       child: const CustomText(
                                         text: 'Update image',
                                         color: Colors.blue,
@@ -232,7 +268,16 @@ class _AddProductViewBodyState extends ConsumerState<AddProductViewBody> {
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
                               ElevatedBtn(
-                                function: () {},
+                                function: () {
+                                  setState(() {
+                                    _groupValue = 1;
+                                    _priceController.clear();
+                                    _titleController.clear();
+                                    _imageController.clear();
+                                    _catValue = 'Vegetables';
+                                    _pickedImage = false;
+                                  });
+                                },
                                 title: 'Clear form',
                                 icon: IconlyBold.danger,
                                 bgColor: Colors.red.shade300,
@@ -240,7 +285,7 @@ class _AddProductViewBodyState extends ConsumerState<AddProductViewBody> {
                               ),
                               ElevatedBtn(
                                 function: () {
-                                  // final isValid = _formKey.currentState!.validate();
+                                  _formKey.currentState!.validate();
                                 },
                                 title: 'Upload',
                                 icon: IconlyBold.upload,
