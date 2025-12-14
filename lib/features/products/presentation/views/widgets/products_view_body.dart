@@ -17,6 +17,7 @@ class ProductsViewBody extends ConsumerWidget {
         child: Column(
           children: [
             Header(
+              title: 'Products',
               fct: () {
                 ref.read(menuControllerProvider).controlProductsMenu();
               },

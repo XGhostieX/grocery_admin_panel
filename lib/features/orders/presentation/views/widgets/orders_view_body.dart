@@ -16,6 +16,7 @@ class OrdersViewBody extends ConsumerWidget {
         child: Column(
           children: [
             Header(
+              title: 'Orders',
               fct: () {
                 ref.read(menuControllerProvider).controlOrdersMenu();
               },

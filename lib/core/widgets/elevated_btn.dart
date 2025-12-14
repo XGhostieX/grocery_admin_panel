@@ -36,7 +36,8 @@ class ElevatedBtn extends StatelessWidget {
         foregroundColor: fgColor,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       ),
-      label: CustomText(text: title, size: 20),
+      icon: Icon(icon),
+      label: CustomText(text: title),
     );
   }
 }
